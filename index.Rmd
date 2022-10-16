@@ -1,0 +1,65 @@
+---
+title: "Tables"
+author: "Eric Peter"
+date: "10/8/2022"
+output: html_document
+---
+
+***Data found here:***: https://www.kaggle.com/datasets/ramjasmaurya/1-gb-internet-price 
+
+Import data and libraries.
+```{r}
+library(dplyr)
+library(knitr)
+library(kableExtra)
+library(DT)
+internet <- read.csv("C:/Users/ericp/Downloads/all_csv sorted.csv")
+colnames(internet) <- c("id", "countryCode" ,"country","contRegion","numInternetPlans","avgGB","cheapestGB", "expensiveGB","avgGB2021", "avgGB2020","users","population")
+internet <- internet[,c(3,5:8,11,12)]
+table <- internet %>% arrange(avgGB, decreasing = TRUE) %>% kbl(col.names = c("Country",
+                    "# Internet Plans",
+                    "Avgerage",
+                    "Cheapest",
+                    "Most Expensive",
+                    "# Internet Users",
+                    "Population"))  %>%
+  add_header_above(c(" " = 2,  "Price Per GB (USD)" = 3, " " = 2))  %>% kable_styling(font_size=14, fixed_thead = TRUE) %>%   kable_material(lightable_options = c("striped", "hover", "condensed")) %>% kable_classic(full_width = TRUE)  %>% scroll_box(width = "100%", height = "700px")
+
+table
+```
+
+Since this is such a large table, lets make it interactive so it is easier to navigate.
+```{r}
+internet %>%
+  datatable(colnames=c("Country",
+                    "# Internet Plans",
+                    "Avg Price/GB (USD)",
+                    "Cheapest Price/GB (USD)",
+                    "Most Expensive Price/GB (USD)",
+                    "# Internet Users",
+                    "Population")) 
+```
+
+Now we can search the table to find a certain country, or sort the table by price, etc.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
